@@ -24,9 +24,10 @@ jobs:
       - name: Run a one-line script
         run: |
           # Run the updater script
-          /bin/bash .github/workflows/updater.sh
+          /bin/bash .github/workflows/tagger.sh
   
       - name: Tag the sources
+      - if: ${{ env.PROCEED == 'true' }}
       - uses: IIlyichev/github-tag-action@v6.3
         with:
           # Required for permission to tag the repo.
