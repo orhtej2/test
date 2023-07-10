@@ -34,7 +34,7 @@ jobs:
           file: 'manifest.toml'
           field: 'version'
       
-      - name: Check TOML existence
+      - name: Check JSON existence
         id: check_json
         uses: andstor/file-existence-action@v2.0.0
         with:
@@ -48,8 +48,7 @@ jobs:
             prop_path: 'version'
             
       - name: Replace
-        run: |
-          echo "::set-env name=VERSION::$(echo $steps.version_toml.outputs.value$steps.version_json.outputs.prop | sed -e \"s/~/-/\" )"
+        run: echo "VERSION=$(echo $steps.version_toml.outputs.value$steps.version_json.outputs.prop | sed -e \"s/~/-/\" )" >> $GITHUB_ENV
 
       - name: Tag the sources
         if: ${{ env.VERSION != '' }}
