@@ -6,14 +6,16 @@ toml_to_json() {
 
 if [ -f manifest.json ];
 then
-  current_version=$(cat manifest.json | jq -j '.version | sed -e 's/~/-/')
+  current_version=$(cat manifest.json | jq -j ".version" | sed -e "s/~/-/")
 elif [ -f manifest.toml ];
 then
-  current_version=$(cat manifest.toml | toml_to_json | jq ".version" | sed -e 's/~/-/')
+  current_version=$(cat manifest.toml | toml_to_json | jq ".version" | sed -e "s/~/-/")
 else
   echo No manifest found!
   exit 0
 fi
+
+echo Found version $current_version
 
 echo "PROCEED=true" >> $GITHUB_ENV
 echo "VERSION=$current_version" >> $GITHUB_ENV
