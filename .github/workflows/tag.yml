@@ -21,13 +21,38 @@ jobs:
     steps:
       - name: Checkout sources
         uses: actions/checkout@v3
-      - name: Get version
+      - name: Check TOML existence
+        id: check_toml
+        uses: andstor/file-existence-action@v2.0.0
+        with:
+          files: "manifest.toml"
+      - name: Get version from manifest.toml
+        if: steps.check_toml.outputs.files_exists == 'true'
+        uses: SebRollen/toml-action@v1.0.2
+        id: version_toml
+        with:
+          file: 'package.toml'
+          field: 'version'
+      
+      - name: Check TOML existence
+        id: check_json
+        uses: andstor/file-existence-action@v2.0.0
+        with:
+          files: "manifest.json"
+      - name: Get version from manifest.json
+        if: steps.check_json.outputs.files_exists == 'true'
+        id: version_json
+        uses: notiz-dev/github-action-json-property@release
+        with: 
+            path: 'package.json'
+            prop_path: 'version'
+            
+      - name: Replace
         run: |
-          # Run the updater script
-          /bin/bash .github/workflows/tagger.sh
-  
+          echo "::set-env name=VERSION::$(echo $steps.version_toml.outputs.value$steps.version_json.outputs.prop | sed -e \"s/~/-/\" )"
+
       - name: Tag the sources
-        if: ${{ env.PROCEED == 'true' }}
+        if: ${{ env.VERSION != '' }}
         uses: IIlyichev/github-tag-action@v6.3
         with:
           # Required for permission to tag the repo.
