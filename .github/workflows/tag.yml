@@ -31,7 +31,7 @@ jobs:
         uses: SebRollen/toml-action@v1.0.2
         id: version_toml
         with:
-          file: 'package.toml'
+          file: 'manifest.toml'
           field: 'version'
       
       - name: Check TOML existence
@@ -44,7 +44,7 @@ jobs:
         id: version_json
         uses: notiz-dev/github-action-json-property@release
         with: 
-            path: 'package.json'
+            path: 'manifest.json'
             prop_path: 'version'
             
       - name: Replace
