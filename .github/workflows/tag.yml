@@ -48,7 +48,7 @@ jobs:
             prop_path: 'version'
             
       - name: Replace
-        run: echo "VERSION=$(echo $steps.version_toml.outputs.value$steps.version_json.outputs.prop | sed -e \"s/~/-/\" )" >> $GITHUB_ENV
+        run: echo "VERSION=$(echo $steps.version_toml.outputs.value$steps.version_json.outputs.prop | sed -e s/~/-/ )" >> $GITHUB_ENV
 
       - name: Tag the sources
         if: ${{ env.VERSION != '' }}
