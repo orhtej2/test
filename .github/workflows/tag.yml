@@ -31,7 +31,7 @@ jobs:
         uses: IIlyichev/github-tag-action@v6.3
         with:
           # Required for permission to tag the repo.
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          github_token: ${{ secrets.ACCESS_TOKEN }}
           # Which type of bump to use when none explicitly provided when commiting to a release branch (default: `patch`).
           # Custom tag name. If specified, it overrides bump settings.
           custom_tag: ${{ env.VERSION }}
