@@ -2,6 +2,7 @@
 	"name": "Synapse",
 	"id": "synapse",
 	"packaging_format": 1,
+	"unused": false,
 	"description": {
 		"en": "Instant messaging server which uses Matrix",
 		"fr": "Serveur de messagerie instantané basé sur Matrix"
